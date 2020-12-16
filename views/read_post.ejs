@@ -1,0 +1,11 @@
+
+<div class="list-group">
+    <!-- loop over blog posts and render them -->
+    <% posts.forEach((post) => { %>
+      <a href="/posts/<%= post._id%>" >show</a>
+        <h4><%= post.title %></h4>
+        <p><%= post.body %></p>
+        <p><%= post.author_id %></p>
+      
+    <% }) %>
+  </div>
