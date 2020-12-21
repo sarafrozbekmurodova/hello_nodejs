@@ -2,7 +2,7 @@ const express = require("express")
 const router = express.Router()
 const Task = require('./models/Task')
 const Post = require('./models/Post');
-
+const Author = require('./models/Author');
 
 // // List of tasks
 // router.get('/', (req, res) => {
@@ -53,6 +53,13 @@ router.get('/', (req, res) => {
 });
 
 // Create_post
+router.get('/create_post', (req, res) => {
+    Author.find({}).exec((err, authorss) => {
+        //res.send(postss)
+        res.render('create_post',{authors:authorss})
+    })
+});
+
 router.get('/create_post', (req, res) => {
     res.render('create_post')
 })
@@ -130,6 +137,63 @@ router.get('/delete_post/:id', (req, res) => {
 })
 
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
+router.get('/authors', (req, res) => {
+    Author.find({}).exec((err, authorss) => {
+        //res.send(postss)
+        res.render('read_author',{authors:authorss})
+    })
+});
 
+// Create_author
+router.get('/create_author', (req, res) => {
+    res.render('create_author')
+})
+
+
+router.post('/create_author', (req, res) => {
+    var authors = new Author(req.body);
+    authors.save().then(item => {
+    	res.redirect('/authors')
+    })
+})
+
+// get Single author by id 
+router.get('/author/:id', (req, res) => {
+    Author.findById( req.params.id).exec((err,data)=>{
+ res.render('authorid',data)
+    })
+
+ })
+
+ //edit single author
+router.get('/edit_author/:id', (req, res) => {
+    console.log(req.params.id)
+    Author.findById( req.params.id).exec((err,author)=>{
+        console.log(author)
+ res.render('edit_author',{authors:author})
+ 
+    })
+ })
+
+router.post('/edit_author/:id', (req, res) => {
+    const authorbyid={
+        name:req.body.name,
+        surname:req.body.surname
+        
+    }
+    Author.findOneAndUpdate(req.params.id, /*$set: req.body */authorbyid, (err) =>{
+        res.redirect('/authors')
+    })
+})
+
+//delete single author
+
+router.get('/delete_author/:id', (req, res) => {
+    Author.findOneAndDelete( req.params.id ).exec((err, deletedpost) => {
+        res.send('post deleted');
+       
+    })
+})
 
 module.exports = router

@@ -8,6 +8,13 @@
     <label>Author_id</label>
     <input type="number" name="author_id">
     <br>
+    <label for="names">Choose author:</label>
+  <select id="names" name="name">
+    <% authors.forEach((author) => { %>
+        
+          <option value="<%= author.name %>"><%= author.name %></option><% }) %>
+  </select>
+    <br>
     <input type="submit" value="SAVE">
 </form>
 

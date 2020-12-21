@@ -12,6 +12,10 @@ var PostSchema = new mongoose.Schema({
     author_id: {
         type: String,
         default: true
+    },
+    author_name: {
+        type: String,
+        default: true
     }
 });
 
